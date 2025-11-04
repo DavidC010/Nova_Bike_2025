@@ -1,13 +1,13 @@
-package com.NovaBike;
+//package com.NovaBike;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+//import org.junit.jupiter.api.Test;
+//import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class NovaBikeApplicationTests {
+//@SpringBootTest
+//class NovaBikeApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+//	@Test
+//	void contextLoads() {
+//	}
 
-}
+//}

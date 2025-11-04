@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head th:fragment="head">
+        <title>Nova Bikes Shop</title>
+        <meta charset="UTF-8"/>
+        <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+        <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet"/>
+        <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+        <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>        
+    </head>
+    <body>
+        <section th:fragment="listado" class="container py-4">
+    <div class="row text-center mb-4">
+        <h2>Listado de Productos</h2>
+    </div>
+
+    <div class="row">
+        <div th:if="${productos != null and !productos.empty}">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div class="col" th:each="p : ${productos}">
+                    <div class="card h-100 shadow-sm">
+                        <img th:src="@{${p.rutaImagen}}" class="card-img-top" alt="Imagen del producto" style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${p.nombre}">Nombre del producto</h5>
+                            <p class="card-text text-muted" th:text="${p.descripcion}">Descripción del producto</p>
+                            <p class="fw-bold text-primary" th:text="'₡' + ${#numbers.formatDecimal(p.precio, 0, 'POINT', 2, 'COMMA')}"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center p-3" th:if="${productos == null or productos.empty}">
+            <span>No hay productos disponibles en este momento.</span>
+        </div>
+    </div>
+</section>
+
+    </body>
+</html>
