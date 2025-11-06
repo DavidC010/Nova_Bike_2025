@@ -1,0 +1,73 @@
+.menu-item:hover {
+    background-color: black;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.content-wrapper {
+    min-height: calc(100vh - 100px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+footer {
+    margin-top: auto;
+}
+
+/* Cuadro visual para el bloque de login */
+.login-box {
+    background-color: #b1b2b5; 
+    border: 1px solid #dee2e6; /* borde gris suave */
+    border-radius: 8px;        /* esquinas redondeadas */
+    padding: 30px;             /* espacio interno */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); /* sombra suave */
+}
+
+
+.boton-crear {
+    background-color: #31a814; /* verde */
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;       /* tamaño interno */
+    width: auto;                /*evita que se estire al 100% */
+    display: inline-block;      /*se comporta como botón, no como bloque */
+    border-radius: 0.5rem;
+    text-align: center;
+    text-decoration: none;
+}
+
+.boton-crear:hover {
+    background-color: #21820a; /* tono más oscuro al pasar el mouse */
+}
+
+
+
+
+body {/*body tuneado*/
+    background-color: #565558; /* gris claro */
+}
+
+.texto-NovaBike {
+    background: linear-gradient(to right, #dfdf5a, #00ffd4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 2rem;
+    font-weight: bold;
+    font-style: italic;
+}
+
+
+
+.texto-bienvenida {
+    color: #ffffff;
+    font-size: 1rem;
+    padding: 0px;
+}
+
+
+
