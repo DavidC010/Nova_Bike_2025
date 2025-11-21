@@ -7,6 +7,7 @@
         <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
         <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet"/>
         <link th:href="@{/css/estilos.css}" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
         <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
         <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
@@ -52,11 +53,52 @@
                                 </button>
 
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="menuBoton">
-                                    <li><a class="dropdown-item" href="/perfil"><i class="bi bi-person-circle me-2"></i> Información Perfil</a></li>
-                                    <li><a class="dropdown-item" href="/favoritos"><i class="bi bi-heart me-2"></i> Artículos Favoritos</a></li>
-                                    <li><a class="dropdown-item" href="/top"><i class="bi bi-arrow-up-circle me-2"></i> Artículos Top</a></li>
-                                    <li><a class="dropdown-item" href="/pedidos"><i class="bi bi-box-seam me-2"></i> Mis Pedidos</a></li>
-                                    <li><a class="dropdown-item" href="/ruta"><i class="bi bi-truck me-2"></i> Ruta Pedidos</a></li>
+                                    
+                                    <li>
+                                        <a class="dropdown-item d-flex justify-content-between align-items-center" th:href="@{/perfil}">
+                                            <div> 
+                                                <span class="me-2">Perfil</span>
+                                            </div>
+                                            <i class="bi bi-person-circle me-2"></i>
+                                        </a>
+                                    </li>
+                                    
+                                    <li>
+                                        <a class="dropdown-item d-flex justify-content-between align-items-center" href="/favoritos">
+                                            <div> 
+                                                <span class="me-2">Artículos Favoritos</span>
+                                            </div>
+                                            <i class="bi bi-heart me-2"></i>
+                                        </a>
+                                    </li>
+                                    
+                                    <li>
+                                        <a class="dropdown-item d-flex justify-content-between align-items-center" href="/top">
+                                            <div> 
+                                                <span class="me-2">Artículos Top</span>
+                                            </div>
+                                            <i class="bi bi-arrow-up-circle me-2"></i>
+                                        </a>
+                                    </li>
+                                    
+                                    <li>
+                                        <a class="dropdown-item d-flex justify-content-between align-items-center" href="/pedidos">
+                                            <div> 
+                                                <span class="me-2">Mis Pedidos</span>
+                                            </div>
+                                            <i class="bi bi-box-seam me-2"></i>
+                                        </a>
+                                    </li>
+                                    
+                                    <li>
+                                        <a class="dropdown-item d-flex justify-content-between align-items-center" href="/ruta">
+                                            <div> 
+                                                <span class="me-2">Ruta Pedidos</span>
+                                            </div>
+                                            <i class="bi bi-truck me-2"></i>
+                                        </a>
+                                    </li>
+                                    
                                 </ul>
                             </li>
                         </ul>
