@@ -40,4 +40,3 @@ VALUES
  'https://example.com/img/specialized-allez.jpg',
  'Bicicleta de ruta con cuadro de aluminio y grupo Shimano Claris.',
  720000.00);
-s

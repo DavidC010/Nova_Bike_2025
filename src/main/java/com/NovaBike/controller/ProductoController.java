@@ -1,5 +1,5 @@
 package com.NovaBike.controller;
- 
+
 import com.NovaBike.domain.Producto;
 
 import com.NovaBike.service.ProductoService;
@@ -13,60 +13,53 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.*;
- 
+
 import java.util.List;
- 
+
+import org.springframework.web.multipart.MultipartFile;
+
 @Controller
 
 @RequestMapping("/producto")
 
 public class ProductoController {
- 
+
     @Autowired
 
     private ProductoService productoService;
- 
+
     @Autowired
 
     private FavoritoService favoritoService;
- 
- 
+
     @GetMapping("/listado")
 
     public String listado(@RequestParam(name = "q", required = false) String q,
+            @RequestParam(name = "favoritos", required = false) boolean verFavoritos,
+            Model model) {
 
-                          @RequestParam(name = "favoritos", required = false) boolean verFavoritos,
-
-                          Model model) {
- 
         List<Producto> productos = productoService.getProductos();
- 
-
 
         if (verFavoritos) {
 
             List<Integer> idsFavoritos = favoritoService.getFavoritos();
 
             productos = productos.stream()
-
                     .filter(p -> idsFavoritos.contains(p.getId()))
-
                     .toList();
 
         }
- 
+
         if (q != null && !q.isEmpty()) {
 
             productos = productos.stream()
-
                     .filter(p -> p.getNombre().toLowerCase().contains(q.toLowerCase()))
-
                     .toList();
 
             model.addAttribute("q", q);
 
         }
- 
+
         model.addAttribute("productos", productos);
 
         model.addAttribute("totalProductos", productos.size());
@@ -76,25 +69,29 @@ public class ProductoController {
         return "producto/listado";
 
     }
-    
-    
-     @GetMapping("/agregar")
+
+    @GetMapping("/agregar")
     public String agregar(Model model) {
         model.addAttribute("producto", new Producto());
+        model.addAttribute("productos", productoService.getProductos());
         return "producto/agregar";
     }
 
     @PostMapping("/guardar")
-    public String guardar(@ModelAttribute Producto producto) {
-        productoService.save(producto);
-        return "redirect:/producto/listado";
+    public String guardar(
+            @ModelAttribute Producto producto,
+            @RequestParam("imagenFile") MultipartFile imageFile
+    ) {
+
+        productoService.save(producto, imageFile);
+
+        return "redirect:/producto/agregar"; // Regresa a página con la tabla
     }
- 
+
     @PostMapping("/favorito/{id}")
 
     public String toggleFavorito(@PathVariable Integer id,
-
-                                 @RequestParam(required = false) String q) {
+            @RequestParam(required = false) String q) {
 
         favoritoService.toggleFavorito(id);
 
@@ -103,9 +100,7 @@ public class ProductoController {
         if (q != null && !q.isEmpty()) {
 
             redirectUrl += "?q=" + q;
-
         }
-
         return "redirect:" + redirectUrl;
 
     }

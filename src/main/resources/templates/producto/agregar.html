@@ -38,7 +38,7 @@
                         <tr>
                             <td th:text="${producto.id}"></td>
                             <td>
-                                <img th:src="@{${producto.rutaImagen}}" alt="Imagen" class="img-thumbnail" style="width:70px; height:70px;">
+                                <img th:src="${producto.rutaImagen}" alt="Imagen" class="img-thumbnail" style="width:70px; height:70px;">
                             </td>
                             <td th:text="${producto.nombre}"></td>
                             <td th:text="${producto.descripcion}"></td>
