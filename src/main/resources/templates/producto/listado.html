@@ -1,18 +1,28 @@
 <!DOCTYPE html>
-<!-- Esto es un comentario...  -->
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+      xmlns:th="http://www.thymeleaf.org">
 
-    <head th:replace="~{general/fragmentos :: head}">
-        <title>BikeShop</title>
-        <meta charset="UTF-8"/>
-    </head>
-    <body> 
-        <header th:replace="~{general/fragmentos :: header}"/>
-        <section th:replace="~{producto/fragmentos :: tiendaSearchBar}"/>
-        <section th:replace="~{producto/fragmentos :: listado}"/>
-        <footer th:replace="~{general/fragmentos :: footer}"/>        
+<head th:replace="~{general/fragmentos :: head}"></head>
 
-    </body>
+<body>
+
+<header th:replace="~{general/fragmentos :: header}"></header>
+
+<section th:replace="~{producto/fragmentos :: tiendaSearchBar}"></section>
+
+<section class="container py-4">
+    <div class="row">
+
+        <!-- Sidebar filtros -->
+        <div th:replace="~{producto/fragmentos :: filtroPrecio}"></div>
+
+        <!-- Listado -->
+        <div th:replace="~{producto/fragmentos :: listado}"></div>
+
+    </div>
+</section>
+
+<footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+</body>
 </html>
