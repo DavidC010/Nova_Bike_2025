@@ -18,18 +18,20 @@ public class ProductoService {
     private ProductoRepository productoRepository;
 
     @Autowired
-    private FirebaseStorageService firebaseStorageService; // 👈 AQUÍ
+    private FirebaseStorageService firebaseStorageService; 
 
     @Transactional(readOnly = true)
     public List<Producto> getProductos() {
         return productoRepository.findAll();
     }
 
-    
-    @Transactional
-    public void save(Producto producto) {
-        productoRepository.save(producto);
+
+    @Transactional(readOnly = true)
+    public Producto getProducto(Integer id) {
+        return productoRepository.findById(id).orElse(null);
     }
+
+ 
 
       @Transactional(readOnly = true)
     public List<Producto> getDestacados() {
@@ -70,4 +72,9 @@ public class ProductoService {
 
     return p.getPrecio().subtract(rebaja);
 }
+    @Transactional
+    public void delete(Integer id) {
+        productoRepository.deleteById(id);
+    }
+
 }
