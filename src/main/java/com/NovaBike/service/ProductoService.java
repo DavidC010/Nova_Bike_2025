@@ -3,6 +3,7 @@ package com.NovaBike.service;
 import com.NovaBike.domain.Producto;
 import com.NovaBike.repository.ProductoRepository;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,10 @@ public class ProductoService {
         productoRepository.save(producto);
     }
 
+      @Transactional(readOnly = true)
+    public List<Producto> getDestacados() {
+        return productoRepository.findByDestacadoTrue();
+    }
     
     @Transactional
     public void save(Producto producto, MultipartFile imageFile) {
@@ -51,4 +56,18 @@ public class ProductoService {
             }
         }
     }
+    
+    public BigDecimal calcularPrecioConDescuento(Producto p) {
+    if (p.getDescuento() <= 0) {
+        return p.getPrecio();
+    }
+
+    BigDecimal porcentaje = BigDecimal
+            .valueOf(p.getDescuento())
+            .divide(BigDecimal.valueOf(100));
+
+    BigDecimal rebaja = p.getPrecio().multiply(porcentaje);
+
+    return p.getPrecio().subtract(rebaja);
+}
 }

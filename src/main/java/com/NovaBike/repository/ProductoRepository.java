@@ -11,4 +11,9 @@ import org.springframework.stereotype.Repository;
 public interface ProductoRepository extends JpaRepository<Producto, Integer> {
     @Query("SELECT p FROM Producto p WHERE LOWER(p.nombre) LIKE LOWER(CONCAT('%', :nombre, '%'))")
     List<Producto> findByNombreContainingIgnoreCase(String nombre);
+    
+    List<Producto> findByDestacadoTrue();
+    
+    List<Producto> findByDescuentoGreaterThan(int minDescuento);
+
 }

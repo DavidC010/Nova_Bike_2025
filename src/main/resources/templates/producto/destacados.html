@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{general/fragmentos :: head}">
+    <title>Productos Destacados | NovaBike</title>
+</head>
+
+<body class="bg-dark text-white">
+
+<header th:replace="~{general/fragmentos :: header}"></header>
+
+<div class="container py-5">
+
+    <h2 class="text-center mb-4 fw-bold">
+        ⭐ Productos Destacados
+    </h2>
+
+    <div class="row">
+
+        <!-- Si hay productos destacados -->
+        <div class="col-md-4 mb-4" th:each="p : ${productos}">
+            <div class="card h-100 shadow-lg border-warning">
+
+                <!-- Imagen -->
+                <img th:src="${p.rutaImagen}"
+                     class="card-img-top"
+                     alt="Imagen Producto"
+                     style="height:220px; object-fit:cover;">
+
+                <div class="card-body bg-light text-dark rounded-bottom">
+
+                    <!-- Nombre -->
+                    <h5 class="card-title fw-bold"
+                        th:text="${p.nombre}"></h5>
+
+                    <!-- Descripción -->
+                    <p class="card-text text-muted"
+                       th:text="${p.descripcion}"></p>
+
+                    <!-- ⭐ PRECIO / OFERTA -->
+                    <!-- Con descuento -->
+                    <div th:if="${p.descuento != null and p.descuento > 0}">
+                        <p class="text-muted text-decoration-line-through mb-1">
+                            ₡[[${#numbers.formatDecimal(p.precio, 0, 'POINT', 2, 'COMMA')}]]
+                        </p>
+                        <p class="fw-bold text-warning fs-5 mb-0">
+                            ₡[[${@productoService.calcularPrecioConDescuento(p)}]]
+                            <span class="badge bg-danger ms-2">
+                                -[[${p.descuento}]]%
+                            </span>
+                        </p>
+                    </div>
+
+                    <!-- Sin descuento -->
+                    <div th:if="${p.descuento == null or p.descuento == 0}">
+                        <p class="fw-bold text-primary fs-5 mb-0">
+                            ₡[[${#numbers.formatDecimal(p.precio, 0, 'POINT', 2, 'COMMA')}]]
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Si no hay productos destacados -->
+        <div class="text-center mt-5"
+             th:if="${productos == null or productos.empty}">
+            <h5 class="text-white-50">No hay productos destacados por el momento.</h5>
+        </div>
+
+    </div>
+
+</div>
+
+<footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+</body>
+</html>

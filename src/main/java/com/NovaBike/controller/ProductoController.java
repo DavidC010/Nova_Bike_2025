@@ -1,11 +1,11 @@
 package com.NovaBike.controller;
 
+import com.NovaBike.domain.FiltroProducto;
 import com.NovaBike.domain.Producto;
 
 import com.NovaBike.service.ProductoService;
 
 import com.NovaBike.service.FavoritoService;
-import java.math.BigDecimal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -34,54 +34,48 @@ public class ProductoController {
     private FavoritoService favoritoService;
 
     @GetMapping("/listado")
-public String listado(
-        @RequestParam(name = "q", required = false) String q,
-        @RequestParam(name = "favoritos", required = false, defaultValue = "false") boolean verFavoritos,
-        @RequestParam(name = "min", required = false) BigDecimal min,
-        @RequestParam(name = "max", required = false) BigDecimal max,
-        Model model) {
+    public String listado(
+            @RequestParam(name = "q", required = false) String q,
+            @RequestParam(name = "favoritos", required = false, defaultValue = "false") boolean verFavoritos,
+            FiltroProducto filtro,
+            Model model) {
 
-    List<Producto> productos = productoService.getProductos();
+        List<Producto> productos = productoService.getProductos();
 
-    
-    if (verFavoritos) {
-        List<Integer> idsFavoritos = favoritoService.getFavoritos();
-        productos = productos.stream()
-                .filter(p -> idsFavoritos.contains(p.getId()))
-                .toList();
+        if (verFavoritos) {
+            List<Integer> idsFavoritos = favoritoService.getFavoritos();
+            productos = productos.stream()
+                    .filter(p -> idsFavoritos.contains(p.getId()))
+                    .toList();
+        }
+
+        if (q != null && !q.isEmpty()) {
+            String qLower = q.toLowerCase();
+            productos = productos.stream()
+                    .filter(p -> p.getNombre() != null
+                    && p.getNombre().toLowerCase().contains(qLower))
+                    .toList();
+            model.addAttribute("q", q);
+        }
+
+        if (filtro.getMin() != null && filtro.getMax() != null) {
+            productos = productos.stream()
+                    .filter(p -> p.getPrecio() != null
+                    && p.getPrecio().compareTo(filtro.getMin()) >= 0 // precio >= min
+                    && p.getPrecio().compareTo(filtro.getMax()) <= 0) // precio <= max
+                    .toList();
+
+            model.addAttribute("min", filtro.getMin());
+            model.addAttribute("max", filtro.getMax());
+        }
+
+        model.addAttribute("productos", productos);
+        model.addAttribute("totalProductos", productos.size());
+        model.addAttribute("favoritos", favoritoService.getFavoritos());
+
+        return "producto/listado";
     }
 
-    
-    if (q != null && !q.isEmpty()) {
-        String qLower = q.toLowerCase();
-        productos = productos.stream()
-                .filter(p -> p.getNombre() != null &&
-                             p.getNombre().toLowerCase().contains(qLower))
-                .toList();
-        model.addAttribute("q", q);
-    }
-
-    
-    if (min != null && max != null) {
-        productos = productos.stream()
-                .filter(p -> p.getPrecio() != null
-                        && p.getPrecio().compareTo(min) >= 0   // precio >= min
-                        && p.getPrecio().compareTo(max) <= 0)  // precio <= max
-                .toList();
-
-        model.addAttribute("min", min);
-        model.addAttribute("max", max);
-    }
-
-    
-    model.addAttribute("productos", productos);
-    model.addAttribute("totalProductos", productos.size());
-    model.addAttribute("favoritos", favoritoService.getFavoritos());
-
-    return "producto/listado";
-}
-
-    
     @GetMapping("/agregar")
     public String agregar(Model model) {
         model.addAttribute("producto", new Producto());
@@ -97,7 +91,7 @@ public String listado(
 
         productoService.save(producto, imageFile);
 
-        return "redirect:/producto/agregar";    
+        return "redirect:/producto/agregar";
     }
 
     @PostMapping("/favorito/{id}")
@@ -115,6 +109,13 @@ public String listado(
         }
         return "redirect:" + redirectUrl;
 
+    }
+
+    @GetMapping("/destacados")
+    public String destacados(Model model) {
+        var productos = productoService.getDestacados();
+        model.addAttribute("productos", productos);
+        return "producto/destacados";
     }
 
 }
